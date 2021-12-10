@@ -1,15 +1,26 @@
-import Head from 'next/head'
+import {
+  Flex,
+  FormControl,
+  Input,
+  IconButton,
+  Stack,
+} from '@chakra-ui/react'
+import { ChatIcon } from '@chakra-ui/icons'
 
 const Home = () => {
   return (
-    <div>
-      <Head>
-        <title>チャットボット</title>
-        <meta name="description" content="チャットボットアプリ" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <p>テスト</p>
-    </div>
+    <Flex justify="center">
+      <Stack isInline>
+        <FormControl w={300}>
+          <Input id="text" type="text"/>
+        </FormControl>
+        <IconButton
+          colorScheme="teal"
+          aria-label='send message'
+          icon={<ChatIcon />}
+        />
+      </Stack>
+    </Flex>
   )
 }
 
