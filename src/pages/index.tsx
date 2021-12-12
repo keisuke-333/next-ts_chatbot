@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+import type { NextPage } from 'next'
 import {
   Box,
   Flex,
@@ -6,15 +8,30 @@ import {
   Input,
   IconButton,
   Stack,
-  Wrap,
-  WrapItem,
-  Avatar,
-  Center,
-  AvatarBadge,
 } from '@chakra-ui/react'
 import { ChatIcon } from '@chakra-ui/icons'
 
-const Home = () => {
+import { db } from '../firebase/client'
+import { OwnerMsg } from '../components/OwnerMsg'
+import { BotMsg } from '../components/BotMsg'
+
+const Home: NextPage = () => {
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    const unSub = db.collection('posts').onSnapshot((snapshot) => {
+      const data = snapshot.docs.map((doc) => {
+        return doc.data()
+      })
+      console.log(data)
+      setPosts(data)
+      // setPosts(
+      //   snapshot.docs.map((doc) => ({id: doc.id, message: doc.data().message}))
+      // )
+    })
+    return () => unSub()
+  }, [])
+
   return (
     <Grid
       templateColumns='100vw'
@@ -37,92 +54,14 @@ const Home = () => {
           bg='gray.50'
           overflowY='auto'
         >
-          <Wrap mb={4}>
-            <WrapItem>
-              <Avatar>
-                <AvatarBadge boxSize='1.25em' bg='purple.500' />
-              </Avatar>
-            </WrapItem>
-            <WrapItem
-              maxW={{base: '75%', md: '80%'}}
-              pt={4}
-            >
-              <Center
-                color='white'
-                bg='purple.300'
-                p={4}
-                rounded='md'
-              >
-                テストテストテストテストテストテストテストテストテストテストテステストテストテストテストテストテストテステストテストテス
-              </Center>
-            </WrapItem>
-          </Wrap>
-          <Wrap
-            mb={4}
-            justify='flex-end'
-          >
-            <WrapItem
-              maxW={{base: '75%', md: '80%'}}
-              pt={4}
-            >
-              <Center
-                color='white'
-                bg='teal.300'
-                p={4}
-                rounded='md'
-              >
-                テストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテ
-              </Center>
-            </WrapItem>
-            <WrapItem>
-              <Avatar>
-                <AvatarBadge boxSize='1.25em' bg='teal.500' />
-              </Avatar>
-            </WrapItem>
-          </Wrap>
-          <Wrap
-            mb={4}
-            justify='flex-end'
-          >
-            <WrapItem
-              maxW={{base: '75%', md: '80%'}}
-              pt={4}
-            >
-              <Center
-                color='white'
-                bg='teal.300'
-                p={4}
-                rounded='md'
-              >
-                テストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテテストテストテストテストテストテストテ
-              </Center>
-            </WrapItem>
-            <WrapItem>
-              <Avatar>
-                <AvatarBadge boxSize='1.25em' bg='teal.500' />
-              </Avatar>
-            </WrapItem>
-          </Wrap>
-          <Wrap mb={4}>
-            <WrapItem>
-              <Avatar>
-                <AvatarBadge boxSize='1.25em' bg='purple.500' />
-              </Avatar>
-            </WrapItem>
-            <WrapItem
-              maxW={{base: '75%', md: '80%'}}
-              pt={4}
-            >
-              <Center
-                color='white'
-                bg='purple.300'
-                p={4}
-                rounded='md'
-              >
-                テストテストテスト
-              </Center>
-            </WrapItem>
-          </Wrap>
+          <BotMsg>
+            テスト
+          </BotMsg>
+          {posts.map((post, key) => (
+            <OwnerMsg key={key}>
+              {post.message}
+            </OwnerMsg>
+          ))}
         </Box>
         <Flex
           h='10%'
