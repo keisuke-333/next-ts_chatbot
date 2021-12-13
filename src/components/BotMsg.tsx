@@ -23,13 +23,15 @@ export const BotMsg: VFC<Props> = memo((props) => {
       </WrapItem>
       <WrapItem
         maxW={{base: '75%', md: '80%'}}
-        pt={4}
+        pt={5}
       >
         <Center
+          fontSize={{base: 'sm', md: 'md'}}
           color='white'
           bg='purple.300'
-          p={4}
-          rounded='md'
+          p={3}
+          rounded='2xl'
+          borderTopLeftRadius='0'
         >
           {children}
         </Center>
