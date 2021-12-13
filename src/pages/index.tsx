@@ -10,7 +10,16 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { ChatIcon } from '@chakra-ui/icons'
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+  addDoc
+} from 'firebase/firestore'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import dayjs from 'dayjs'
 
 import { db } from '../firebase/client'
 import { OwnerMsg } from '../components/OwnerMsg'
@@ -20,8 +29,14 @@ type Input = {
   text: string
 }
 
+type Post = {
+  id: string
+  message: string
+  timestamp: number
+}
+
 const Home: NextPage = () => {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState<Array<Post>>([])
 
   const {
     handleSubmit,
@@ -32,22 +47,23 @@ const Home: NextPage = () => {
     defaultValues: {text: ''}
   })
   
-  const onSubmit: SubmitHandler<Input> = (data) => {
-    db.collection('posts').add({message: data.text})
+  const onSubmit: SubmitHandler<Input> = async (data) => {
+    const corectionRef = collection(db, 'posts')
+    const docRef = await addDoc(corectionRef, {message: data.text, timestamp: serverTimestamp()})
     reset()
   }
 
   useEffect(() => {
-    const unSub = db.collection('posts').onSnapshot((snapshot) => {
-      const data = snapshot.docs.map((doc) => {
-        return doc.data()
-      })
-      setPosts(data)
-      // setPosts(
-      //   snapshot.docs.map((doc) => ({id: doc.id, message: doc.data().message}))
-      // )
+    const corectionRef = collection(db, 'posts')
+    const q = query(corectionRef, orderBy('timestamp', 'asc'))
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      setPosts(querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        message: doc.data().message,
+        timestamp: doc.data().timestamp?.toDate().getTime()
+      })))
     })
-    return () => unSub()
+    return unsubscribe
   }, [])
 
   return (
@@ -75,9 +91,10 @@ const Home: NextPage = () => {
           <BotMsg>
             テスト
           </BotMsg>
-          {posts.map((post, key) => (
-            <OwnerMsg key={key}>
+          {posts.map((post) => (
+            <OwnerMsg key={post.id}>
               {post.message}
+              {dayjs(post.timestamp).format('hh:mm:ss')}
             </OwnerMsg>
           ))}
         </Box>
