@@ -10,13 +10,32 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { ChatIcon } from '@chakra-ui/icons'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
 import { db } from '../firebase/client'
 import { OwnerMsg } from '../components/OwnerMsg'
 import { BotMsg } from '../components/BotMsg'
 
+type Input = {
+  text: string
+}
+
 const Home: NextPage = () => {
   const [posts, setPosts] = useState([])
+
+  const {
+    handleSubmit,
+    register,
+    formState,
+    reset
+  } = useForm({
+    defaultValues: {text: ''}
+  })
+
+  const onSubmit: SubmitHandler<Input> = (data) => {
+    alert(data.text)
+    reset()
+  }
 
   useEffect(() => {
     const unSub = db.collection('posts').onSnapshot((snapshot) => {
@@ -68,22 +87,28 @@ const Home: NextPage = () => {
           flexDir='column'
           justify='flex-end'
         >
-          <Stack isInline>
-            <FormControl>
-              <Input
-                id="text"
-                type="text"
-                placeholder='テキストを入力してください'
-                bg='gray.50'
-                focusBorderColor='teal.500'
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack isInline>
+              <FormControl>
+                <Input
+                  id='text'
+                  type='text'
+                  placeholder='テキストを入力してください'
+                  bg='gray.50'
+                  focusBorderColor='teal.500'
+                  {...register('text')}
+                />
+              </FormControl>
+              <IconButton
+                type='submit'
+                colorScheme='teal'
+                aria-label='send message'
+                icon={<ChatIcon />}
+                isLoading={formState.isSubmitting}
+                disabled={!formState.isDirty}
               />
-            </FormControl>
-            <IconButton
-              colorScheme="teal"
-              aria-label='send message'
-              icon={<ChatIcon />}
-            />
-          </Stack>
+            </Stack>
+          </form>
         </Flex>
       </Box>
     </Grid>
