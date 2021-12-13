@@ -31,9 +31,9 @@ const Home: NextPage = () => {
   } = useForm({
     defaultValues: {text: ''}
   })
-
+  
   const onSubmit: SubmitHandler<Input> = (data) => {
-    alert(data.text)
+    db.collection('posts').add({message: data.text})
     reset()
   }
 
@@ -42,7 +42,6 @@ const Home: NextPage = () => {
       const data = snapshot.docs.map((doc) => {
         return doc.data()
       })
-      console.log(data)
       setPosts(data)
       // setPosts(
       //   snapshot.docs.map((doc) => ({id: doc.id, message: doc.data().message}))
