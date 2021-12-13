@@ -49,7 +49,7 @@ const Home: NextPage = () => {
   
   const onSubmit: SubmitHandler<Input> = async (data) => {
     const corectionRef = collection(db, 'posts')
-    const docRef = await addDoc(corectionRef, {message: data.text, timestamp: serverTimestamp()})
+    await addDoc(corectionRef, {message: data.text, timestamp: serverTimestamp()})
     reset()
   }
 
