@@ -1,13 +1,17 @@
 import { useState, useEffect, useRef } from 'react'
 import type { NextPage } from 'next'
-import { Box, Flex, Grid } from '@chakra-ui/react'
+import { Box, Grid } from '@chakra-ui/react'
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
-import dayjs from 'dayjs'
 
 import { db } from '../firebase/client'
 import { OwnerMsg } from '../components/OwnerMsg'
 import { BotMsg } from '../components/BotMsg'
 import { InputForm } from '../components/InputForm'
+
+const botMsg = {
+  message: 'ボットです。質問がある場合はなにか投稿をしてください。',
+  timestamp: 1639396737199
+}
 
 type Post = {
   id: string
@@ -57,16 +61,17 @@ const Home: NextPage = () => {
           rounded='lg'
           bg='gray.50'
           overflowY='auto'
-          id={'scrollArea'}
         >
-          <BotMsg>
-            テスト
-          </BotMsg>
+          <BotMsg
+            message={botMsg.message}
+            timestamp={botMsg.timestamp}
+          />
           {posts.map((post) => (
-            <OwnerMsg key={post.id}>
-              {post.message}
-              {dayjs(post.timestamp).format('hh:mm:ss')}
-            </OwnerMsg>
+            <OwnerMsg
+              key={post.id}
+              message={post.message}
+              timestamp={post.timestamp}
+            />
           ))}
           <div ref={scrollBottomRef}/>
         </Box>
