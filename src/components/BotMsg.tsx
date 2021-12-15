@@ -11,12 +11,12 @@ import { useBreakpointValue } from '@chakra-ui/media-query'
 import dayjs from 'dayjs'
 
 type Props = {
-  message: string
-  timestamp: number
+  botResponse: string
+  responseTimestamp: number
 }
 
 export const BotMsg: VFC<Props> = memo((props) => {
-  const { message, timestamp } = props
+  const { botResponse, responseTimestamp } = props
   const avatarSize = useBreakpointValue({ base: 'xs', md: 'sm' })
 
   return (
@@ -39,7 +39,7 @@ export const BotMsg: VFC<Props> = memo((props) => {
           rounded='2xl'
           borderTopLeftRadius='0'
         >
-          {message}
+          {botResponse}
         </Center>
       </WrapItem>
       <WrapItem>
@@ -47,7 +47,7 @@ export const BotMsg: VFC<Props> = memo((props) => {
           fontSize={4}
           mt='auto'
         >
-          {dayjs(timestamp).format('hh:mm:ss')}
+          {dayjs(responseTimestamp).format('hh:mm:ss')}
         </Text>
       </WrapItem>
     </Wrap>

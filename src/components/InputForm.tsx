@@ -20,7 +20,6 @@ export const InputForm = memo(() => {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/chat`,
         {userInput}
       )
-      console.log(res.data)
     } catch(e) {
       const { status, statusText } = e.response
       console.error(`Error! HTTP Status: ${status} ${statusText}`)

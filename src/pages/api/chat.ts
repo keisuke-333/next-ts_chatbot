@@ -1,4 +1,5 @@
 import { NextApiHandler } from 'next'
+import axios from 'axios'
 import { addDoc, collection } from 'firebase/firestore'
 
 import { db } from '../../firebase/client'
@@ -21,7 +22,9 @@ const chat: NextApiHandler = async (req, res) => {
       botResponse = `${hour}時${min}分です。`
       break
     case '今日の東京の天気は？':
-      botResponse = '○○です。'
+      const res = await axios.get('https://weather.tsukumijima.net/api/forecast/city/130010')
+      const weather = res.data.forecasts[0].telop
+      botResponse = `${weather}です。`
       break
     default:
       botResponse = '正しいテキストを入力してください。'

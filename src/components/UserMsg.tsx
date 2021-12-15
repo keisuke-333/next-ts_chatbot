@@ -15,7 +15,7 @@ type Props = {
   responseTimestamp: number
 }
 
-export const OwnerMsg: VFC<Props> = memo((props) => {
+export const UserMsg: VFC<Props> = memo((props) => {
   const { userInput, responseTimestamp } = props
   const avatarSize = useBreakpointValue({ base: 'xs', md: 'sm' })
 
