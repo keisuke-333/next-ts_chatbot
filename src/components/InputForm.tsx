@@ -1,14 +1,8 @@
 import { memo } from 'react'
+import axios from 'axios'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FormControl, Input, IconButton, Stack, Flex } from '@chakra-ui/react'
 import { ChatIcon } from '@chakra-ui/icons'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
-
-import { db } from '../firebase/client'
-
-type Input = {
-  text: string
-}
 
 export const InputForm = memo(() => {
   const {
@@ -17,13 +11,22 @@ export const InputForm = memo(() => {
     formState,
     reset
   } = useForm({
-    defaultValues: {text: ''}
+    defaultValues: {userInput: ''}
   })
 
-  const onSubmit: SubmitHandler<Input> = async (data) => {
-    const corectionRef = collection(db, 'posts')
-    await addDoc(corectionRef, {message: data.text, timestamp: serverTimestamp()})
-    reset()
+  const onSubmit: SubmitHandler<{userInput: string}> = async ({ userInput }) => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/chat`,
+        {userInput}
+      )
+      console.log(res.data)
+    } catch(e) {
+      const { status, statusText } = e.response
+      console.error(`Error! HTTP Status: ${status} ${statusText}`)
+    } finally {
+      reset()
+    }
   }
 
   return (
@@ -41,7 +44,7 @@ export const InputForm = memo(() => {
               placeholder='テキストを入力してください'
               bg='gray.50'
               focusBorderColor='teal.500'
-              {...register('text')}
+              {...register('userInput')}
             />
           </FormControl>
           <IconButton

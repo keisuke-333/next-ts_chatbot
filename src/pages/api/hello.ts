@@ -1,6 +1,14 @@
 import { NextApiHandler } from 'next'
 
-const handler: NextApiHandler = (req, res) => {
+type Data = {
+  user_input: string
+  bot_response: string
+  response_timestamp: string
+}
+
+const handler: NextApiHandler<Array<Data>> = (req, res) => {
+  if (req.method !== 'GET') res.status(405).end()
+
   res.status(200).json([
     {
       user_input: '今日の東京の天気は？',

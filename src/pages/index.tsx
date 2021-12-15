@@ -15,8 +15,9 @@ const botMsg = {
 
 type Post = {
   id: string
-  message: string
-  timestamp: number
+  userInput: string
+  botResponse: string
+  responseTimestamp: number
 }
 
 const Home: NextPage = () => {
@@ -25,12 +26,13 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const corectionRef = collection(db, 'posts')
-    const q = query(corectionRef, orderBy('timestamp', 'asc'))
+    const q = query(corectionRef, orderBy('response_timestamp', 'asc'))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       setPosts(querySnapshot.docs.map(doc => ({
         id: doc.id,
-        message: doc.data().message,
-        timestamp: doc.data().timestamp?.toDate().getTime()
+        userInput: doc.data().user_input,
+        botResponse: doc.data().bot_response,
+        responseTimestamp: doc.data().response_timestamp.toDate().getTime()
       })))
     })
     return unsubscribe
@@ -69,8 +71,8 @@ const Home: NextPage = () => {
           {posts.map((post) => (
             <OwnerMsg
               key={post.id}
-              message={post.message}
-              timestamp={post.timestamp}
+              userInput={post.userInput}
+              responseTimestamp={post.responseTimestamp}
             />
           ))}
           <div ref={scrollBottomRef}/>
