@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import type { NextPage } from 'next'
 import { Box, Grid } from '@chakra-ui/react'
-import { collection, onSnapshot, orderBy, query, limit } from 'firebase/firestore'
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 
 import { db } from '../firebase/client'
 import { UserMsg } from '../components/UserMsg'
@@ -17,8 +17,6 @@ type Post = {
 const Home: NextPage = () => {
   const [posts, setPosts] = useState<Array<Post>>([])
   const scrollBottomRef = useRef<HTMLDivElement>(null)
-
-  console.log('レンダリングテスト')
 
   useEffect(() => {
     const corectionRef = collection(db, 'posts')
