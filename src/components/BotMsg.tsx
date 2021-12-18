@@ -1,4 +1,5 @@
 import { memo, VFC } from 'react'
+import dayjs from 'dayjs'
 import {
   Wrap,
   WrapItem,
@@ -8,12 +9,9 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { useBreakpointValue } from '@chakra-ui/media-query'
-import dayjs from 'dayjs'
+import type { Post } from '@prisma/client'
 
-type Props = {
-  botResponse: string
-  responseTimestamp: number
-}
+type Props = Pick<Post, 'botResponse' | 'responseTimestamp'>
 
 export const BotMsg: VFC<Props> = memo((props) => {
   const { botResponse, responseTimestamp } = props

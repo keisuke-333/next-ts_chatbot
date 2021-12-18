@@ -1,10 +1,18 @@
-import { memo } from 'react'
+import { memo, VFC, Dispatch, SetStateAction } from 'react'
 import axios from 'axios'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FormControl, Input, IconButton, Stack, Flex } from '@chakra-ui/react'
 import { ChatIcon } from '@chakra-ui/icons'
+import type { Post } from '@prisma/client'
 
-export const InputForm = memo(() => {
+type Props = {
+  posts: Array<Post>
+  setPosts: Dispatch<SetStateAction<Array<Post>>>
+}
+
+export const InputForm: VFC<Props> = memo((props) => {
+  const { posts, setPosts } = props
+
   const {
     handleSubmit,
     register,
@@ -20,6 +28,7 @@ export const InputForm = memo(() => {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/chat`,
         {userInput}
       )
+      setPosts([res.data, ...posts])
     } catch(e) {
       const { status, statusText } = e.response
       console.error(`Error! HTTP Status: ${status} ${statusText}`)
@@ -32,7 +41,7 @@ export const InputForm = memo(() => {
     <Flex
       h='10%'
       flexDir='column'
-      justify='flex-end'
+      justify='flex-start'
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack isInline>

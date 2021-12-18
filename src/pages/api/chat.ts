@@ -1,10 +1,9 @@
 import { NextApiHandler } from 'next'
 import axios from 'axios'
-import { addDoc, collection } from 'firebase/firestore'
+import type { Post } from '@prisma/client'
+import prisma from '../../lib/prisma'
 
-import { db } from '../../firebase/client'
-
-const chat: NextApiHandler = async (req, res) => {
+const chat: NextApiHandler<Post> = async (req, res) => {
   if (req.method !== 'POST') res.status(405).end()
 
   const { userInput } = req.body
@@ -31,22 +30,11 @@ const chat: NextApiHandler = async (req, res) => {
       break
   }
 
-  try {
-    const corectionRef = collection(db, 'posts')
-    const docRef = await addDoc(corectionRef, {
-      user_input: userInput,
-      bot_response: botResponse,
-      response_timestamp: responseTimestamp,
-    })
-  } catch (e) {
-    return res.status(400).json({ message: e.message })
-  }
-
-  return res.status(200).json({
-    user_input: userInput,
-    bot_response: botResponse,
-    response_timestamp: responseTimestamp,
+  const post = await prisma.post.create({
+    data: { userInput, botResponse, responseTimestamp },
   })
+
+  return res.status(200).json(post)
 }
 
 export default chat

@@ -1,39 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import type { NextPage } from 'next'
+import type { Post } from '@prisma/client'
+import axios from 'axios'
 import { Box, Grid } from '@chakra-ui/react'
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 
-import { db } from '../firebase/client'
 import { UserMsg } from '../components/UserMsg'
 import { BotMsg } from '../components/BotMsg'
 import { InputForm } from '../components/InputForm'
 
-type Post = {
-  userInput: string
-  botResponse: string
-  responseTimestamp: number
-}
-
 const Home: NextPage = () => {
   const [posts, setPosts] = useState<Array<Post>>([])
-  const scrollBottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const corectionRef = collection(db, 'posts')
-    const q = query(corectionRef, orderBy('response_timestamp', 'asc'))
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      setPosts(querySnapshot.docs.map(doc => ({
-        userInput: doc.data().user_input,
-        botResponse: doc.data().bot_response,
-        responseTimestamp: doc.data().response_timestamp.toDate().getTime()
-      })))
-    })
-    return unsubscribe
+    const getPosts = async () => {
+      const res = await axios.get<Array<Post>>(`${process.env.NEXT_PUBLIC_BASE_URL}/api/history/list`)
+      setPosts(res.data)
+    }
+    getPosts()
   }, [])
-
-  useEffect(() => {
-    scrollBottomRef?.current?.scrollIntoView()
-  }, [posts])
 
   return (
     <Grid
@@ -50,6 +34,10 @@ const Home: NextPage = () => {
         rounded='lg'
         bg='gray.200'
       >
+        <InputForm
+          posts={posts}
+          setPosts={setPosts}
+        />
         <Box
           h='90%'
           p={4}
@@ -69,9 +57,7 @@ const Home: NextPage = () => {
               />
             </React.Fragment>
           ))}
-          <div ref={scrollBottomRef}/>
         </Box>
-        <InputForm />
       </Box>
     </Grid>
   )

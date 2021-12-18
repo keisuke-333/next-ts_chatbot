@@ -1,0 +1,16 @@
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("HEROKU_POSTGRESQL_PURPLE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Post {
+  id                Int      @id @default(autoincrement())
+  userInput         String   @map(name: "user_input")
+  botResponse       String   @map(name: "bot_response")
+  responseTimestamp DateTime @map(name: "response_timestamp")
+}
