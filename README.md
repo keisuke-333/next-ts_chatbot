@@ -25,4 +25,4 @@
 - PostgreSQL
 
 ## :pencil: システム構成図
-<img width="1251" alt="diagram" src="https://user-images.githubusercontent.com/65392082/146677938-5f3529bd-9e3b-4344-a37b-ec653ca14c7e.png">
+<img width="783" alt="diagram" src="https://user-images.githubusercontent.com/65392082/146680015-d2a86319-9ef5-45e8-a49a-10dd313dbc05.png">
