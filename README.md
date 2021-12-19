@@ -23,3 +23,6 @@
 - Heroku
 #### データベース
 - PostgreSQL
+
+## :pencil: システム構成図
+<img width="1251" alt="diagram" src="https://user-images.githubusercontent.com/65392082/146677938-5f3529bd-9e3b-4344-a37b-ec653ca14c7e.png">
