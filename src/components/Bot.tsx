@@ -11,24 +11,18 @@ import {
 import { useBreakpointValue } from '@chakra-ui/media-query'
 import type { Post } from '@prisma/client'
 
-type Props = Pick<Post, 'userInput' | 'responseTimestamp'>
+type Props = Pick<Post, 'botResponse' | 'responseTimestamp'>
 
-export const UserMsg: VFC<Props> = memo((props) => {
-  const { userInput, responseTimestamp } = props
+export const Bot: VFC<Props> = memo((props) => {
+  const { botResponse, responseTimestamp } = props
   const avatarSize = useBreakpointValue({ base: 'xs', md: 'sm' })
 
   return (
-    <Wrap
-      mb={4}
-      justify='flex-end'
-    >
+    <Wrap mb={4}>
       <WrapItem>
-        <Text
-          fontSize={4}
-          mt='auto'
-        >
-          {dayjs(responseTimestamp).format('hh:mm:ss')}
-        </Text>
+        <Avatar size={avatarSize}>
+          <AvatarBadge boxSize='1.25em' bg='purple.500' />
+        </Avatar>
       </WrapItem>
       <WrapItem
         maxW={{base: '63%', md: '70%'}}
@@ -37,19 +31,22 @@ export const UserMsg: VFC<Props> = memo((props) => {
         <Center
           fontSize={{base: 'sm', md: 'md'}}
           color='white'
-          bg='teal.300'
+          bg='purple.300'
           px={3}
           py={2}
           rounded='2xl'
-          borderTopRightRadius='0'
+          borderTopLeftRadius='0'
         >
-          {userInput}
+          {botResponse}
         </Center>
       </WrapItem>
       <WrapItem>
-        <Avatar size={avatarSize}>
-          <AvatarBadge boxSize='1.25em' bg='teal.500' />
-        </Avatar>
+        <Text
+          fontSize={4}
+          mt='auto'
+        >
+          {dayjs(responseTimestamp).format('hh:mm:ss')}
+        </Text>
       </WrapItem>
     </Wrap>
   )

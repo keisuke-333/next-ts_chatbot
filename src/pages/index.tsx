@@ -4,9 +4,9 @@ import type { Post } from '@prisma/client'
 import axios from 'axios'
 import { Box, Grid } from '@chakra-ui/react'
 
-import { UserMsg } from '../components/UserMsg'
-import { BotMsg } from '../components/BotMsg'
-import { InputForm } from '../components/InputForm'
+import { User } from '../components/User'
+import { Bot } from '../components/Bot'
+import { Form } from '../components/Form'
 
 const Home: NextPage = () => {
   const [posts, setPosts] = useState<Array<Post>>([])
@@ -34,7 +34,7 @@ const Home: NextPage = () => {
         rounded='lg'
         bg='gray.200'
       >
-        <InputForm
+        <Form
           posts={posts}
           setPosts={setPosts}
         />
@@ -47,11 +47,11 @@ const Home: NextPage = () => {
         >
           {posts.map((post, key) => (
             <React.Fragment key={key}>
-              <UserMsg
+              <User
                 userInput={post.userInput}
                 responseTimestamp={post.responseTimestamp}
               />
-              <BotMsg
+              <Bot
                 botResponse={post.botResponse}
                 responseTimestamp={post.responseTimestamp}
               />

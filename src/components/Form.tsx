@@ -10,7 +10,7 @@ type Props = {
   setPosts: Dispatch<SetStateAction<Array<Post>>>
 }
 
-export const InputForm: VFC<Props> = memo((props) => {
+export const Form: VFC<Props> = memo((props) => {
   const { posts, setPosts } = props
 
   const {
