@@ -42,7 +42,7 @@ export const Bot: VFC<Props> = memo((props) => {
       </WrapItem>
       <WrapItem>
         <Text
-          fontSize={4}
+          fontSize='xs'
           mt='auto'
         >
           {dayjs(responseTimestamp).format('hh:mm:ss')}
