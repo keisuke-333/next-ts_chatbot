@@ -5,6 +5,8 @@ import { FormControl, Input, IconButton, Stack, Flex } from '@chakra-ui/react'
 import { ChatIcon } from '@chakra-ui/icons'
 import type { Post } from '@prisma/client'
 
+import { useMessage } from '../hooks/useMessage'
+
 type Props = {
   posts: Array<Post>
   setPosts: Dispatch<SetStateAction<Array<Post>>>
@@ -12,7 +14,7 @@ type Props = {
 
 export const Form: VFC<Props> = memo((props) => {
   const { posts, setPosts } = props
-
+  const { showMessage } = useMessage()
   const {
     handleSubmit,
     register,
@@ -29,9 +31,11 @@ export const Form: VFC<Props> = memo((props) => {
         {userInput}
       )
       setPosts([res.data, ...posts])
+      showMessage({ title: '送信されました。', status: 'success' })
     } catch(e) {
       const { status, statusText } = e.response
       console.error(`Error! HTTP Status: ${status} ${statusText}`)
+      showMessage({ title: '送信に失敗しました', status: 'error' })
     } finally {
       reset()
     }
@@ -61,7 +65,7 @@ export const Form: VFC<Props> = memo((props) => {
             aria-label='send message'
             icon={<ChatIcon />}
             isLoading={formState.isSubmitting}
-            disabled={!formState.isDirty}
+            disabled={!formState.isDirty || formState.isSubmitting}
           />
         </Stack>
       </form>
