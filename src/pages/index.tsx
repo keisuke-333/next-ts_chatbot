@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import type { NextPage } from 'next'
-import { Center, Spinner } from '@chakra-ui/react'
+import { Center, Spinner, Text } from '@chakra-ui/react'
 
 import { usePosts } from '../hooks/usePosts'
 import { Layout } from '../components/Layout'
@@ -33,18 +33,24 @@ const Home: NextPage = () => {
           </Center>
         ) : (
           <>
-            {posts.map((post, key) => (
-              <React.Fragment key={key}>
-                <User
-                  userInput={post.userInput}
-                  responseTimestamp={post.responseTimestamp}
-                />
-                <Bot
-                  botResponse={post.botResponse}
-                  responseTimestamp={post.responseTimestamp}
-                />
-              </React.Fragment>
-            ))}
+            {!posts.length ? (
+              <Center h="100%">
+                <Text>入力欄からテキストを送信してください。</Text>
+              </Center>
+            ) : (
+              posts.map((post, key) => (
+                <React.Fragment key={key}>
+                  <User
+                    userInput={post.userInput}
+                    responseTimestamp={post.responseTimestamp}
+                  />
+                  <Bot
+                    botResponse={post.botResponse}
+                    responseTimestamp={post.responseTimestamp}
+                  />
+                </React.Fragment>
+              ))
+            )}
           </>
         )}
       </ChatArea>
