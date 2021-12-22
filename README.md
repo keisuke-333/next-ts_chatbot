@@ -2,7 +2,7 @@
 
 [chatbot](https://next-ts-chatbot.vercel.app/)  
 特定の文言に対して返答するチャットボットアプリ  
-<img width="887" alt="screen" src="https://user-images.githubusercontent.com/65392082/146666433-5eb53e23-effe-4e47-8173-d86a214ff5ab.png">
+<img width="788" alt="screen" src="https://user-images.githubusercontent.com/65392082/147079213-d90b35cc-4b17-4fb4-96c8-11efb4f0e3ed.png">
 
 ## :recycle: 環境
 
@@ -103,27 +103,27 @@
 [
   {
     id: 4,
-    userInput: "こんにちは",
-    botResponse: "こんにちは。",
-    responseTimestamp: "2021-12-20T00:17:16.501Z"
+    userInput: "テスト",
+    botResponse: "正しいテキストを入力してください。",
+    responseTimestamp: "2021-12-22T19:26:49.076Z"
   },
   {
     id: 3,
-    userInput: "今何時？",
-    botResponse: "0時12分です。",
-    responseTimestamp: "2021-12-20T00:17:03.993Z"
+    userInput: "今日の東京の天気は？",
+    botResponse: "晴のち曇です。",
+    responseTimestamp: "2021-12-22T19:26:20.044Z"
   },
   {
     id: 2,
-    userInput: "今日の東京の天気は？",
-    botResponse: "晴れです。",
-    responseTimestamp: "2021-12-20T00:15:43.979Z"
+    userInput: "今何時？",
+    botResponse: "19時26分です。",
+    responseTimestamp: "2021-12-22T19:26:02.337Z"
   },
   {
     id: 1,
-    userInput: "テスト",
-    botResponse: "正しいテキストを入力してください。",
-    responseTimestamp: "2021-12-18T21:06:20.141Z"
+    userInput: "こんにちは",
+    botResponse: "こんにちは。",
+    responseTimestamp: "2021-12-22T19:25:47.539Z"
   }
   ...
 ]
