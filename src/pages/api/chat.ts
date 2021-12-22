@@ -1,5 +1,6 @@
 import { NextApiHandler } from 'next'
 import axios from 'axios'
+import dayjs from 'dayjs'
 import type { Post } from '@prisma/client'
 import prisma from '../../lib/prisma'
 
@@ -8,10 +9,15 @@ const chat: NextApiHandler<Post> = async (req, res) => {
 
   const { userInput } = req.body
 
-  const responseTimestamp = new Date(Date.now() + (new Date().getTimezoneOffset() + 9 * 60) * 60 * 1000)
-  const hour = responseTimestamp.getHours()
-  const min = responseTimestamp.getMinutes()
+  // Prismaでタイムゾーン指定ができない為API側でJSTに変換
+  const responseTimestamp = dayjs().add(9, 'hour').toDate()
 
+  // 現在時刻取得用
+  const jstNow = new Date(Date.now() + (new Date().getTimezoneOffset() + 9 * 60) * 60 * 1000)
+  const hour = jstNow.getHours()
+  const min = jstNow.getMinutes()
+
+  // ボット返答パターン
   let botResponse = ''
   switch (userInput) {
     case 'こんにちは':

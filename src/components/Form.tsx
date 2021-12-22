@@ -1,4 +1,4 @@
-import { memo, VFC, Dispatch, SetStateAction } from 'react'
+import { memo, VFC, Dispatch, SetStateAction, useCallback } from 'react'
 import axios from 'axios'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FormControl, Input, IconButton, Stack, Flex } from '@chakra-ui/react'
@@ -24,7 +24,7 @@ export const Form: VFC<Props> = memo((props) => {
     defaultValues: {userInput: ''}
   })
 
-  const onSubmit: SubmitHandler<{userInput: string}> = async ({ userInput }) => {
+  const onSubmit: SubmitHandler<{userInput: string}> = useCallback( async ({ userInput }) => {
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/chat`,
@@ -39,7 +39,7 @@ export const Form: VFC<Props> = memo((props) => {
     } finally {
       reset()
     }
-  }
+  }, [posts, setPosts])
 
   return (
     <Flex

@@ -45,7 +45,7 @@ export const Bot: VFC<Props> = memo((props) => {
           fontSize='xs'
           mt='auto'
         >
-          {dayjs(responseTimestamp).format('hh:mm:ss')}
+          {dayjs(responseTimestamp).subtract(9, 'hour').format('HH:mm:ss')}
         </Text>
       </WrapItem>
     </Wrap>
