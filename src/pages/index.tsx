@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 import type { NextPage } from 'next'
 import { Center, Spinner, Text } from '@chakra-ui/react'
 
@@ -39,7 +39,7 @@ const Home: NextPage = () => {
               </Center>
             ) : (
               posts.map((post, key) => (
-                <React.Fragment key={key}>
+                <Fragment key={key}>
                   <User
                     userInput={post.userInput}
                     responseTimestamp={post.responseTimestamp}
@@ -48,7 +48,7 @@ const Home: NextPage = () => {
                     botResponse={post.botResponse}
                     responseTimestamp={post.responseTimestamp}
                   />
-                </React.Fragment>
+                </Fragment>
               ))
             )}
           </>
