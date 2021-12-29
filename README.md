@@ -39,7 +39,7 @@
 
 ## :pencil: システム構成図
 
-<img width="783" alt="diagram" src="https://user-images.githubusercontent.com/65392082/146680015-d2a86319-9ef5-45e8-a49a-10dd313dbc05.png">
+<img width="658" alt="diagram" src="https://user-images.githubusercontent.com/65392082/147620902-c5d50082-373c-423b-9b50-d1ce0dc61597.png">
 
 ## :pencil: ER 図
 
