@@ -1,6 +1,4 @@
 # :speech_balloon: chatbot
-
-[chatbot](https://next-ts-chatbot.vercel.app/)  
 特定の文言に対して返答するチャットボットアプリ  
 <img width="788" alt="screen" src="https://user-images.githubusercontent.com/65392082/147079213-d90b35cc-4b17-4fb4-96c8-11efb4f0e3ed.png">
 
